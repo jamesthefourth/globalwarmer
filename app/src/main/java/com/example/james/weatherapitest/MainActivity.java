@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
      protected String doInBackground(String... args) {
 
          StringBuilder result = new StringBuilder();
-
+         JSONObject resultObject = null;
          try {
              URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/CA/San_Francisco.json");
              urlConnection = (HttpURLConnection) url.openConnection();
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
              while ((line = reader.readLine()) != null) {
                  result.append(line);
              }
+             resultObject = new JSONObject(result.toString());
 
          }catch( Exception e) {
              e.printStackTrace();
@@ -75,13 +78,33 @@ public class MainActivity extends AppCompatActivity {
          }
 
 
-         return result.toString();
+         try {
+                JSONObject values = resultObject.getJSONObject("current_observation");
+             return values.getString("temperature_string");
+
+         }catch (JSONException e){
+             return "bad data, JSONException";
+         }
      }
 
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
-        responseView.setText(response.toString());
 
+        responseView.setText(response);
+
+
+
+    }
+
+    protected String jsonParser(String json){
+        JSONObject fullResponse;
+        try {
+           fullResponse  = new JSONObject(json);
+           return fullResponse.getString("'temperature_string'");
+
+        }catch (JSONException e){
+            return "bad data, JSONException";
+        }
 
 
     }
