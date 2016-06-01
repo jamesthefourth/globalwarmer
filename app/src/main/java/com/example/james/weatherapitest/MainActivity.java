@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -20,9 +21,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Current build of Globally Warmer app final project for Grant Zukowski and James Orrell
+ * 5/31/16
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     TextView responseView;
+    TextView responseViewAlmanac;
     EditText currentInput;
 
     @Override
@@ -35,24 +42,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchButton(View v){
-
+    //**************need to add input validation here ****************************
         currentInput = (EditText)findViewById(R.id.enterText);
         String currentCity = currentInput.getText().toString();
+
+        //initialize response views to prepare for response
         responseView = (TextView)findViewById(R.id.responseView);
+        responseViewAlmanac = (TextView)findViewById(R.id.responseViewAlmanac);
+
         //pass in the city name to the network request -- plan to get this later from the user location
-        networkRequest one = new networkRequest(responseView, currentCity);
+       networkRequest one = new networkRequest(responseView, currentCity);
         responseView.setText(one.toString());
+
+
+        secondNetworkRequest two = new secondNetworkRequest(responseViewAlmanac, currentCity);
+        responseViewAlmanac.setText(two.toString());
     }
 }
 
 //initiate new thread for network connected api call in order to avoid slowing UI thread.
- class networkRequest extends AsyncTask<String,String,String> {
+//this class handles gathering the current temperature, the next class will handle almanac data
+//*** planning to refactor this code so we don't have huge duplicate methods here...****
+class networkRequest extends AsyncTask<String,String,String> {
     String cityName;
     private Exception exception;
-     TextView responseView;
-     HttpURLConnection urlConnection;
+    TextView responseView;
+    HttpURLConnection urlConnection;
 
-    protected networkRequest(TextView textView, String city){
+    protected networkRequest(TextView textView,String city){
         super.execute();
         responseView = textView;
         cityName = city;
@@ -61,66 +78,115 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-     protected String doInBackground(String... args) {
+    protected String doInBackground(String... args) {
 
 
-         StringBuilder result = new StringBuilder();
-         JSONObject resultObject = null;
-         try {
-             URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/CA/"+ cityName +".json");
-             urlConnection = (HttpURLConnection) url.openConnection();
-             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+        StringBuilder result = new StringBuilder();
+        JSONObject resultObject = null;
+        try {
+            URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/CA/"+ cityName +".json");
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
-             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-             String line;
-             while ((line = reader.readLine()) != null) {
-                 result.append(line);
-             }
-             resultObject = new JSONObject(result.toString());
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+            resultObject = new JSONObject(result.toString());
 
-         }catch( Exception e) {
-             e.printStackTrace();
-         }
-         finally {
-             urlConnection.disconnect();
-         }
+        }catch( Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            urlConnection.disconnect();
+        }
 
 
-         try {
-                JSONObject values = resultObject.getJSONObject("current_observation");
-                StringBuilder output = new StringBuilder();
-                output.append("The current temperature in ");
-                output.append(cityName);
-                output.append(" is ");
-                output.append(values.getString("temperature_string"));
-             return output.toString();
+        try {
+            //build the output string from the JSON data and the user input city name
+            JSONObject values = resultObject.getJSONObject("current_observation");
+            StringBuilder output = new StringBuilder();
+            output.append("The current temperature in ");
+            output.append(cityName);
+            output.append(" is ");
+            output.append(values.getString("temp_f"));
+            return output.toString();
 
-         }catch (JSONException e){
-             return "Sorry, we don't have info for that city yet! Please try again.";
-         }
-     }
+        }catch (JSONException e){
+            return "Sorry, we don't have info for that city yet! Please try again.";
+        }
+    }
 
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
 
         responseView.setText(response);
 
+    }
 
+}
+
+//second network request handles almanac data-----------------------------------------------------------------
+class secondNetworkRequest extends AsyncTask<String,String,String> {
+    String cityName;
+    private Exception exception;
+    TextView responseViewAlmanac;
+    HttpURLConnection urlConnection;
+
+    protected secondNetworkRequest(TextView textView, String city){
+        super.execute();
+        responseViewAlmanac = textView;
+        cityName = city;
 
     }
 
-    protected String jsonParser(String json){
-        JSONObject fullResponse;
-        try {
-           fullResponse  = new JSONObject(json);
-           return fullResponse.getString("'temperature_string'");
+    protected String doInBackground(String... args) {
 
-        }catch (JSONException e){
-            return "bad data, JSONException";
+
+        StringBuilder result = new StringBuilder();
+        JSONObject resultObject = null;
+        try {
+            URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/CA/"+ cityName +".json");
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+            resultObject = new JSONObject(result.toString());
+
+        }catch( Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            urlConnection.disconnect();
         }
 
+        try {
+            //build the output string from the JSON data and the user input city name
+            JSONObject values = resultObject.getJSONObject("almanac");
+            StringBuilder output = new StringBuilder();
+            output.append("The historic average temperature in ");
+            output.append(cityName);
+            output.append(" for today is ");
+            output.append(values.getJSONObject("temp_high").getJSONObject("normal").getString("F"));
+            return output.toString();
 
+        }catch (JSONException e){
+            return "Sorry, we don't have info for that city yet! Please try again.";
+        }
+
+    }
+
+    protected void onPostExecute(String response) {
+        super.onPostExecute(response);
+
+        responseViewAlmanac.setText(response);
     }
 
 }
