@@ -1,5 +1,6 @@
 package com.example.james.weatherapitest;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,12 +55,32 @@ public class MainActivity extends AppCompatActivity {
 
         //pass in the city name to the network request -- plan to get this later from the user location
         networkRequest one = new networkRequest(responseView, currentCity);
-
-
-
     }
 
+    /**
+     * Method that returns a value of a color string and takes a double value
+     * @param temp
+     * @returns String color
+     */
+    public String getColor(Double temp) {
+        String color;
+        color = "";
 
+        if (temp >= 7.0) {
+            color = "#FF0000";
+        } else if (temp < 5.0 && temp >= 2.0) {
+            color = "FFA500";
+        } else if (temp < 2.0 && temp >= 0.5) {
+            color = "FFFF00";
+        } else if (temp < 0.5 && temp >= -0.5) {
+            color = "#008000";
+        } else if (temp < -0.5 && temp >= -2.0) {
+            color = "#0000FF";
+        } else if (temp < -2.0) {
+            color = "#00FFFF";
+        }
+        return color;
+    }
 
 
     //initiate new thread for network connected api call in order to avoid slowing UI thread.
@@ -201,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
 
             differenceTemp = currentTemp - averageTemp;
             differenceViewTemp.setText(String.valueOf(differenceTemp));
+            differenceViewTemp.setBackgroundColor(Color.parseColor(getColor(differenceTemp)));
+
         }
 
     }
