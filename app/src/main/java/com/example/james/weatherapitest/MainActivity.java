@@ -158,10 +158,6 @@ public class MainActivity extends AppCompatActivity {
             responseView.setText(response);
 
             secondNetworkRequest two = new secondNetworkRequest(responseViewAlmanac, cityName);
-
-
-
-
         }
 
     }
@@ -287,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
 
 
             try {
-
                 //THIS IS WHERE WE VALIDATE THE USER INPUT OF CITYNAME
                 //build the output string from the JSON data and the user input city name
                 JSONArray values = resultObject.getJSONArray("RESULTS");
