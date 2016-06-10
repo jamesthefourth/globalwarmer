@@ -32,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
     TextView responseView;
     TextView responseViewAlmanac;
     TextView differenceViewTemp;
+    TextView cityViewRequest;
     EditText currentInput;
     double currentTemp;
     double averageTemp;
     double differenceTemp;
+    String completeCityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,20 @@ public class MainActivity extends AppCompatActivity {
         currentInput = (EditText)findViewById(R.id.enterText);
         String currentCity = currentInput.getText().toString();
 
+        //The reason for this is so you can replace all of the spaces
+        // it has to be a new string becuase they are immutable
+        String currentCity2 = currentCity.replaceAll(" ", "%20");
+
         //initialize response views to prepare for response
         responseView = (TextView)findViewById(R.id.responseView);
         responseViewAlmanac = (TextView)findViewById(R.id.responseViewAlmanac);
         differenceViewTemp = (TextView)findViewById(R.id.differenceViewTemp);
+        cityViewRequest = (TextView)findViewById(R.id.cityViewRequest);
 
-        //pass in the city name to the network request -- plan to get this later from the user location
-        networkRequest one = new networkRequest(responseView, currentCity);
+
+        cityRequest myCityRequest = new cityRequest(cityViewRequest, currentCity2);
+
+
     }
 
     /**
@@ -101,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         protected String doInBackground(String... args) {
 
 
@@ -133,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject values = resultObject.getJSONObject("current_observation");
                 StringBuilder output = new StringBuilder();
                 output.append("The current temperature in ");
-                output.append(cityName);
+                output.append(completeCityName);
                 output.append(" is ");
                 output.append(values.getString("temp_f"));
                 currentTemp = values.getDouble("temp_f");
@@ -199,11 +207,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             try {
+                //THIS IS WHERE WE TALKABOUT ALMANACDATA
                 //build the output string from the JSON data and the user input city name
                 JSONObject values = resultObject.getJSONObject("almanac");
                 StringBuilder output = new StringBuilder();
                 output.append("The historic average temperature in ");
-                output.append(cityName);
+                output.append(completeCityName);
                 output.append(" for today is ");
                 output.append(values.getJSONObject("temp_high").getJSONObject("normal").getString("F"));
                 averageTemp = values.getJSONObject("temp_high").getJSONObject("normal").getDouble("F");
@@ -223,6 +232,82 @@ public class MainActivity extends AppCompatActivity {
             differenceTemp = currentTemp - averageTemp;
             differenceViewTemp.setText(String.valueOf(differenceTemp));
             differenceViewTemp.setBackgroundColor(Color.parseColor(getColor(differenceTemp)));
+
+        }
+
+    }
+
+    /**
+     * Class that processes the input string and used the wunderground API to
+     * return the best match to the search
+     */
+    class cityRequest extends AsyncTask<String,String,String> {
+        String cityName;
+        private Exception exception;
+        TextView cityViewRequest;
+        HttpURLConnection urlConnection;
+
+        protected cityRequest(TextView textView,String city){
+
+            cityViewRequest = textView;
+            cityName = city;
+
+            super.execute();
+
+        }
+
+
+        protected String doInBackground(String... args) {
+
+
+            StringBuilder result = new StringBuilder();
+            JSONObject resultObject = null;
+            try {
+
+                //THIS IS WHERE WE USE AUTO COMPLETE TO GET THE PROPER CITY NAME
+
+                URL url = new URL("http://autocomplete.wunderground.com/aq?query=" + cityName);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                resultObject = new JSONObject(result.toString());
+
+            }catch( Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                urlConnection.disconnect();
+            }
+
+
+            try {
+
+                //THIS IS WHERE WE VALIDATE THE USER INPUT OF CITYNAME
+                //build the output string from the JSON data and the user input city name
+                JSONArray values = resultObject.getJSONArray("RESULTS");
+                StringBuilder output = new StringBuilder();
+
+                output.append(values.getJSONObject(0).get("name"));
+                completeCityName = (values.getJSONObject(0).get("name").toString());
+                return output.toString();
+
+            }catch (JSONException e){
+                return "Sorry, we don't have info for that city yet! Please try again.";
+            }
+        }
+
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            cityViewRequest.setText(response);
+
+            //pass in the city name to the network request -- plan to get this later from the user location
+            networkRequest one = new networkRequest(responseView, cityName);
 
         }
 
