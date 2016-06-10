@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e4d0cbb0b999604b349062f0214a0a228a7fd151">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.2.1_0226de4836347cf54a4492d98d3b2fa5388de89a\classes.dex" />
+    </item>
+    <item
+        jar="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="30e165d7f1caeb2ad99fe0e61397b438d91d262d">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_7e3d8839009da9cac557437cec8816265e9d9cc9\classes.dex" />
+    </item>
+    <item
+        jar="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.2.1_3c629a10d86bcf33ffee41be864a1cc60de19a99\classes.dex" />
+    </item>
+    <item
+        jar="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\libs\internal_impl-23.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="607a3d0b8013b4ccbfeb0b7cb293351994e021fb">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.2.1_2a61999819180f5e84744a43618ed04b4d732daf\classes.dex" />
+    </item>
+    <item
+        jar="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.2.1_b90994538778c8c18d5061c4d1980d32cf093c01\classes.dex" />
+    </item>
+    <item
+        jar="D:\Programming\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.2.1\support-annotations-23.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ccb693bc0774fcb637246f7360de25b4af7df318">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.2.1_5dfe4a189dc355f18fe676a3b720b2cb3dfcdee5\classes.dex" />
+    </item>
+    <item
+        jar="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="673d77a5bbddd766037f088e775df525c46407f0">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.2.1_552aa2c06b919c8ab791063cfe43e4c532fd472d\classes.dex" />
+    </item>
+    <item
+        jar="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="22496766fd7e0127fb065aba3619300d0d8b2353">
+        <dex dex="D:\Programming\AD340 Android Development\Final Project\globalwarmer\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_548b7b9f3099c290d333c381a17035dc410d11e4\classes.dex" />
+    </item>
+
+</items>
