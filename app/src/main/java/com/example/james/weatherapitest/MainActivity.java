@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchButton(View v){
-    //**************need to add input validation here ****************************
+
+
+
         currentInput = (EditText)findViewById(R.id.enterText);
         String currentCity = currentInput.getText().toString();
 
@@ -58,13 +60,61 @@ public class MainActivity extends AppCompatActivity {
         responseView = (TextView)findViewById(R.id.responseView);
         responseViewAlmanac = (TextView)findViewById(R.id.responseViewAlmanac);
         differenceViewTemp = (TextView)findViewById(R.id.differenceViewTemp);
+        
+        //clear current difference view values
+        differenceViewTemp.setText("");
+        differenceViewTemp.setBackgroundColor(Color.LTGRAY);
+
         cityViewRequest = (TextView)findViewById(R.id.cityViewRequest);
 
-
+        //get complete city name using autocomplete api
         cityRequest myCityRequest = new cityRequest(cityViewRequest, currentCity2);
+        //get current temperature from city
+
+        networkRequest one = new networkRequest(responseView, currentCity);
+        //get historic temperature from city
+        secondNetworkRequest two = new secondNetworkRequest(responseViewAlmanac, currentCity);
+
 
 
     }
+
+    //method to check if an async task has completed
+    private boolean asyncStatusCheck(AsyncTask task){
+
+        if(task.getStatus() == AsyncTask.Status.PENDING){
+            try {
+                wait(100);
+                asyncStatusCheck(task);
+            }catch(InterruptedException e){
+                return false;
+            }
+        }
+
+        if(task.getStatus() == AsyncTask.Status.RUNNING){
+            try {
+                wait(100);
+                asyncStatusCheck(task);
+            }catch(InterruptedException e){
+                return false;
+            }
+        }
+
+        if(task.getStatus() == AsyncTask.Status.FINISHED){
+            return true;
+        }
+        return false;
+    }
+
+    private void setDifferenceViewTemp(){
+
+
+        differenceTemp = currentTemp - averageTemp;
+        differenceViewTemp.setText(String.valueOf(differenceTemp));
+        differenceViewTemp.setBackgroundColor(Color.parseColor(getColor(differenceTemp)));
+    }
+
+
 
     /**
      * Method that returns a value of a color string and takes a double value
@@ -157,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             TextView responseView = (TextView) findViewById(R.id.responseView);
             responseView.setText(response);
 
-            secondNetworkRequest two = new secondNetworkRequest(responseViewAlmanac, cityName);
+
         }
 
     }
@@ -225,9 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
             responseViewAlmanac.setText(response);
 
-            differenceTemp = currentTemp - averageTemp;
-            differenceViewTemp.setText(String.valueOf(differenceTemp));
-            differenceViewTemp.setBackgroundColor(Color.parseColor(getColor(differenceTemp)));
+            setDifferenceViewTemp();
 
         }
 
@@ -285,12 +333,19 @@ public class MainActivity extends AppCompatActivity {
             try {
                 //THIS IS WHERE WE VALIDATE THE USER INPUT OF CITYNAME
                 //build the output string from the JSON data and the user input city name
-                JSONArray values = resultObject.getJSONArray("RESULTS");
-                StringBuilder output = new StringBuilder();
 
-                output.append(values.getJSONObject(0).get("name"));
-                completeCityName = (values.getJSONObject(0).get("name").toString());
-                return output.toString();
+                //precaution/testing if/else to make sure we get some kind of city name returned
+                if(resultObject != null) {
+
+                    JSONArray values = resultObject.getJSONArray("RESULTS");
+                    StringBuilder output = new StringBuilder();
+
+                    output.append(values.getJSONObject(0).get("name"));
+                    completeCityName = (values.getJSONObject(0).get("name").toString());
+                    return output.toString();
+                }
+                else
+                    return cityName;
 
             }catch (JSONException e){
                 return "Sorry, we don't have info for that city yet! Please try again.";
@@ -301,8 +356,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(response);
             cityViewRequest.setText(response);
 
-            //pass in the city name to the network request -- plan to get this later from the user location
-            networkRequest one = new networkRequest(responseView, cityName);
+
 
         }
 

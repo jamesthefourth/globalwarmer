@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WeatherAPITest</string>
     <string name="cityOne">Nairobi</string>
-    <string name="cityTwp">Auckland</string>
+    <string name="cityTwo">Auckland</string>
     <string name="cityThree">Tegucigalpa</string>
     <string name="cityFour">Taipei</string>
     <string name="cityFive">Lisbon</string>
