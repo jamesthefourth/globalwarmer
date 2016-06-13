@@ -1,5 +1,6 @@
 package com.example.james.weatherapitest;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +49,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         differenceViewTemp = (Button)findViewById(R.id.differenceViewTemp);
         differenceViewTemp.setVisibility(View.INVISIBLE);
+
+
+        //back button to return to main activity
+        Button globalStatsButton = (Button) findViewById(R.id.globalStatsButton);
+
+
+        globalStatsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, GlobalStats.class);
+                startActivity(myIntent);
+            }
+        });
     }
+
+
 
     public void searchButton(View v){
 
@@ -135,12 +151,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     /**
      * Method that returns a value of a color string and takes a double value
      * @param temp
      * @returns String color
      */
-    public String getColor(Double temp) {
+    public static String getColor(Double temp) {
         String color;
         color = "";
 
@@ -367,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             try {
-                //THIS IS WHERE WE TALKABOUT ALMANACDATA
+                //THIS IS WHERE WE TALK ABOUT ALMANAC DATA
                 //build the output string from the JSON data and the user input city name
                 JSONObject values = resultObject.getJSONObject("almanac");
                 StringBuilder output = new StringBuilder();
