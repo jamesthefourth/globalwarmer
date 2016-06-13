@@ -36,23 +36,33 @@
             android:id="@+id/cityViewRequest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="30dp"/>
+            android:textSize="25dp"/>
         <TextView
             android:id="@+id/responseViewAlmanac"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="30dp"
+            android:textSize="20dp"
             />
         <TextView
         android:id="@+id/responseView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="30dp"/>
-        <TextView
+        android:textSize="20dp"/>
+        <Button
             android:id="@+id/differenceViewTemp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="30dp"/>
+            android:layout_height="100dp"
+            android:textSize="30dp"
+            android:onClick="amIWarmingButton"
+            android:elevation="5dp"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/globalStatsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Global Stats"
+            />
 
     </LinearLayout>
 
