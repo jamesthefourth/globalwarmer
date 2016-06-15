@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     TextView differenceViewTemp;
     TextView cityViewRequest;
     EditText currentInput;
-    double currentTemp;
+    double pastTemp;
     double averageTemp;
     double differenceTemp;
     String completeCityName;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     public void searchButton(View v){
 
         //reset values
-        currentTemp = 0;
+        pastTemp = 0;
         averageTemp = 0;
         differenceTemp = 0;
 
@@ -94,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
         //get complete city name using autocomplete api
         cityRequest myCityRequest = new cityRequest(cityViewRequest, currentCity2);
         //get current temperature from city
-
-
 
     }
 
@@ -129,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     //method to calculate the difference between current and almanac data and set color of diff view
     private void setDifferenceViewTemp(){
 
-            differenceTemp = currentTemp - averageTemp;
+            differenceTemp = pastTemp - averageTemp;
 
             String differenceTempString = String.format("%.2f", differenceTemp);
             differenceViewTemp.setText(differenceTempString + " degrees " + isWarmer(differenceTemp) + " today.");
@@ -294,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             JSONObject resultObject = null;
             try {
-                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/zmw:"+ cityName +".json");
+                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/history_20160118/q/zmw:"+ cityName +".json");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
@@ -316,13 +314,13 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 //build the output string from the JSON data and the user input city name
-                JSONObject values = resultObject.getJSONObject("current_observation");
+                Double tempI = resultObject.getdou("response");
                 StringBuilder output = new StringBuilder();
-                output.append("The current temperature in ");
+                output.append("The temperature in ");
                 output.append(completeCityName);
-                output.append(" is ");
-                output.append(values.getString("temp_f"));
-                currentTemp = values.getDouble("temp_f");
+                output.append(" on January 18th 2016 was ");
+                output.append(values.getDouble("tempi"));
+                pastTemp = values.getDouble("tempi");
                 return output.toString();
 
             }catch (JSONException e){
