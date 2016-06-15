@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             JSONObject resultObject = null;
             try {
-                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/zmw:Chic"+ cityName +".json");
+                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/zmw:"+ cityName +".json");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
