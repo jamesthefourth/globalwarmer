@@ -9,18 +9,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Today's Global Stats"
+        android:text=""
         android:id="@+id/globalStatsHeader"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="18dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cityOne"
+        android:text=""
         android:id="@+id/cityOneName"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="10dp"
+        android:textSize="21dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -29,15 +30,16 @@
         android:text=""
         android:id="@+id/cityOneButton"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp" />
+        android:paddingBottom="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cityTwo"
+        android:text=""
         android:id="@+id/cityTwoName"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="10dp"
+        android:textSize="21dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -46,15 +48,16 @@
         android:text=""
         android:id="@+id/cityTwoButton"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp" />
+        android:paddingBottom="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cityThree"
+        android:text=""
         android:id="@+id/cityThreeName"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="10dp"
+        android:textSize="21dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -63,15 +66,16 @@
         android:text=""
         android:id="@+id/cityThreeButton"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp" />
+        android:paddingBottom="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cityFour"
+        android:text=""
         android:id="@+id/cityFourName"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="10dp"
+        android:textSize="21dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -80,15 +84,16 @@
         android:text=""
         android:id="@+id/cityFourButton"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp" />
+        android:paddingBottom="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cityFive"
+        android:text=""
         android:id="@+id/cityFiveName"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="10dp"
+        android:textSize="21dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -97,5 +102,22 @@
         android:text=""
         android:id="@+id/cityFiveButton"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp" />
+        android:paddingBottom="15dp" />
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="next region"
+        android:layout_gravity="right"
+        android:id="@+id/nextButton"/>
+
+    <Button
+        android:id="@+id/backToMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to Search"
+        android:layout_gravity="left"
+        android:paddingTop="15dp"
+        />
+
 </LinearLayout>

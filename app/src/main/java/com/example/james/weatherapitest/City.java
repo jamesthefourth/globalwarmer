@@ -28,6 +28,11 @@ public class City {
     double differenceTemp;
     Color tempColor;
     String name;
+    String completeCityName;
+
+
+
+    String cityCode;
 
     Button cityButton;
 
@@ -79,6 +84,10 @@ public class City {
         return name;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
     public Button getCityButton() {
         return cityButton;
     }
@@ -87,5 +96,19 @@ public class City {
         this.cityButton = cityButton;
     }
 
+    public String getCityCode() {
+        return cityCode;
+    }
 
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
+    }
+
+    public String getCompleteCityName() {
+        return completeCityName;
+    }
+
+    public void setCompleteCityName(String completeCityName) {
+        this.completeCityName = completeCityName;
+    }
 }

@@ -1,10 +1,37 @@
 <resources>
-    <string name="app_name">WeatherAPITest</string>
+    <string name="app_name">Globally Warming</string>
+
+
     <string name="cityOne">Nairobi</string>
-    <string name="cityTwo">Auckland</string>
-    <string name="cityThree">Tegucigalpa</string>
-    <string name="cityFour">Taipei</string>
-    <string name="cityFive">Venice</string>
+    <string name="cityTwo">Cairo</string>
+    <string name="cityThree">Harare</string>
+    <string name="cityFour">Dakar</string>
+    <string name="cityFive">Bamako</string>
+
+    <string name="citySix">Seattle</string>
+    <string name="citySeven">Sacramento</string>
+    <string name="cityEight">Houston</string>
+    <string name="cityNine">Boston</string>
+    <string name="cityTen">Chicago</string>
+
+    <string name="cityEleven">Taipei</string>
+    <string name="cityTwelve">Seoul</string>
+    <string name="cityThirteen">Kyoto</string>
+    <string name="cityFourteen">Hanoi</string>
+    <string name="cityFifteen">Mumbai</string>
+
+    <string name="citySixteen">Paris</string>
+    <string name="citySeventeen">Rome</string>
+    <string name="cityEighteen">London</string>
+    <string name="cityNineteen">Madrid</string>
+    <string name="cityTwenty">Stockholm</string>
+
+    <string name="cityTwentyOne">Tegucigalpa</string>
+    <string name="cityTwentyTwo">Lima</string>
+    <string name="cityTwentyThree">Caracas</string>
+    <string name="cityTwentyFour">Havana</string>
+    <string name="cityTwentyFive">Santiago</string>
+
     <string name="warmingButton">Am I warming? Push me to find out.</string>
     <string name="warmer">warmer than average</string>
     <string name="cooler">cooler than average</string>

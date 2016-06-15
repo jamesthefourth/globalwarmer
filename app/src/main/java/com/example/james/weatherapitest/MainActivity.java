@@ -1,6 +1,8 @@
 package com.example.james.weatherapitest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -62,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        final SharedPreferences sharedPref = getSharedPreferences("region_data", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("region_data", 0);
+        editor.apply();
     }
 
 
@@ -95,9 +102,7 @@ public class MainActivity extends AppCompatActivity {
         cityRequest myCityRequest = new cityRequest(cityViewRequest, currentCity2);
         //get current temperature from city
 
-        networkRequest one = new networkRequest(responseView, currentCity);
-        //get historic temperature from city
-        secondNetworkRequest two = new secondNetworkRequest(responseViewAlmanac, currentCity);
+
 
     }
 
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         String color;
         color = "";
 
-        if (temp >= 7.0) {
+        if (temp >= 5.0) {
             color = "#FF0000";
         } else if (temp < 5.0 && temp >= 2.0) {
             color = "#FFA500";
@@ -191,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
      * return the best match to the search
      */
     class cityRequest extends AsyncTask<String,String,String> {
+        String cityCode;
         String cityName;
         private Exception exception;
         TextView cityViewRequest;
@@ -246,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
                     StringBuilder output = new StringBuilder();
 
                     output.append(values.getJSONObject(0).get("name"));
+                    cityCode = values.getJSONObject(0).get("zmw").toString();
                     completeCityName = (values.getJSONObject(0).get("name").toString());
                     return output.toString();
                 }
@@ -261,7 +268,9 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(response);
             cityViewRequest.setText(response);
 
-
+            networkRequest one = new networkRequest(responseView, cityCode);
+            //get historic temperature from city
+            secondNetworkRequest two = new secondNetworkRequest(responseViewAlmanac, cityCode);
 
         }
 
@@ -292,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             JSONObject resultObject = null;
             try {
-                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/CA/"+ cityName +".json");
+                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/zmw:"+ cityName +".json");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
@@ -365,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             JSONObject resultObject = null;
             try {
-                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/CA/"+ cityName +".json");
+                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/zmw:"+ cityName +".json");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
