@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Today's Global Stats"
+        android:id="@+id/globalStatsHeader"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cityOne"
+        android:id="@+id/cityOneName"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/cityOneButton"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cityTwo"
+        android:id="@+id/cityTwoName"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/cityTwoButton"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cityThree"
+        android:id="@+id/cityThreeName"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/cityThreeButton"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cityFour"
+        android:id="@+id/cityFourName"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/cityFourButton"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cityFive"
+        android:id="@+id/cityFiveName"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/cityFiveButton"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+</LinearLayout>
