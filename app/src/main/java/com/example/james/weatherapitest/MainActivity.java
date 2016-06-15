@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             JSONObject resultObject = null;
             try {
-                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/zmw:Chic"+ cityName +".json");
+                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/zmw:"+ cityName +".json");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
@@ -394,8 +394,9 @@ public class MainActivity extends AppCompatActivity {
                 output.append("The historic average temperature in ");
                 output.append(completeCityName);
                 output.append(" for today is ");
-                output.append(values.getJSONObject("temp_high").getJSONObject("normal").getString("F"));
-                averageTemp = values.getJSONObject("temp_high").getJSONObject("normal").getDouble("F");
+                averageTemp = (values.getJSONObject("temp_high").getJSONObject("normal").getDouble("F") + values.getJSONObject("temp_low").getJSONObject("normal").getDouble("F"))/2.0;
+                output.append(averageTemp);
+
                 return output.toString();
 
             }catch (JSONException e){
