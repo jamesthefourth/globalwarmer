@@ -1,6 +1,8 @@
 package com.example.james.weatherapitest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -62,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        final SharedPreferences sharedPref = getSharedPreferences("region_data", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("region_data", 0);
+        editor.apply();
     }
 
 
@@ -160,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         String color;
         color = "";
 
-        if (temp >= 7.0) {
+        if (temp >= 5.0) {
             color = "#FF0000";
         } else if (temp < 5.0 && temp >= 2.0) {
             color = "#FFA500";

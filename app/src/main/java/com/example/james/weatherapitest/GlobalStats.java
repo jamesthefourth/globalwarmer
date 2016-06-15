@@ -1,6 +1,8 @@
 package com.example.james.weatherapitest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,38 +34,36 @@ public class GlobalStats extends AppCompatActivity {
     Button cityFourButton;
     Button cityFiveButton;
 
-    //declare instance variables for city temperatures
-    /*double cityOneTempCurrent;
-    double cityOneTempAlmanac;
-    double cityOneTempDifference;
-
-    double cityTwoTempCurrent;
-    double cityTwoTempAlmanac;
-    double cityTwoTempDifference;
-
-    double cityThreeTempCurrent;
-    double cityThreeTempAlmanac;
-    double cityThreeTempDifference;
-
-    double cityFourTempCurrent;
-    double cityFourTempAlmanac;
-    double cityFourTempDifference;
-
-    double cityFiveTempCurrent;
-    double cityFiveTempAlmanac;
-    double cityFiveTempDifference;*/
-
-
     City cityOne;
     City cityTwo;
     City cityThree;
     City cityFour;
     City cityFive;
 
+    TextView cityOneName;
+    TextView cityTwoName;
+    TextView cityThreeName;
+    TextView cityFourName;
+    TextView cityFiveName;
+
+    TextView globalStatsHeader;
+
+
+    /*String[] cityTwoArray = {getString(R.string.cityTwo),getString(R.string.citySeven),getString(R.string.cityTwelve),getString(R.string.citySeventeen),getString(R.string.cityTwentyTwo)};
+    String[] cityThreeArray = {getString(R.string.cityThree),getString(R.string.cityEight),getString(R.string.cityThirteen),getString(R.string.cityEighteen),getString(R.string.cityTwentyThree)};
+    String[] cityFourArray={getString(R.string.cityFour),getString(R.string.cityNine),getString(R.string.cityFourteen),getString(R.string.cityNineteen),getString(R.string.cityTwentyFour)};
+    String[] cityFiveArray = {getString(R.string.cityFive),getString(R.string.cityTen),getString(R.string.cityFifteen),getString(R.string.cityTwenty),getString(R.string.cityTwentyFive)};*/
+
+    int region;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stats_global);
+
+        //access the shared preferences file to get and edit information
+        final SharedPreferences sharedPref = getSharedPreferences("region_data", Context.MODE_PRIVATE);
+        region = sharedPref.getInt("region_data", 0);
 
         //initialize button views for displaying colors
         cityOneButton = (Button) findViewById(R.id.cityOneButton);
@@ -71,19 +71,84 @@ public class GlobalStats extends AppCompatActivity {
         cityThreeButton = (Button) findViewById(R.id.cityThreeButton);
         cityFourButton = (Button) findViewById(R.id.cityFourButton);
         cityFiveButton = (Button) findViewById(R.id.cityFiveButton);
+        //hide them until load
 
-        //initialize Cities
-        cityOne = new City(getString(R.string.cityOne));
-        cityTwo = new City(getString(R.string.cityTwo));
-        cityThree = new City(getString(R.string.cityThree));
-        cityFour = new City(getString(R.string.cityFour));
-        cityFive = new City(getString(R.string.cityFive));
+        cityOneButton.setVisibility(View.INVISIBLE);
+        cityTwoButton.setVisibility(View.INVISIBLE);
+        cityThreeButton.setVisibility(View.INVISIBLE);
+        cityFourButton.setVisibility(View.INVISIBLE);
+        cityFiveButton.setVisibility(View.INVISIBLE);
 
-        cityRequest cityOneRequest = new cityRequest(cityOneButton, cityOne);
-        networkRequest cityTwoRequest = new networkRequest(cityTwoButton, cityTwo);
-        networkRequest cityThreeRequest = new networkRequest(cityThreeButton, cityThree);
-        networkRequest cityFourRequest = new networkRequest(cityFourButton, cityFour);
-        networkRequest cityFiveRequest = new networkRequest(cityFiveButton, cityFive);
+
+
+        //intialize TextViews
+        cityOneName = (TextView)findViewById(R.id.cityOneName);
+        cityTwoName= (TextView)findViewById(R.id.cityTwoName);
+        cityThreeName= (TextView)findViewById(R.id.cityThreeName);
+        cityFourName= (TextView)findViewById(R.id.cityFourName);
+        cityFiveName= (TextView)findViewById(R.id.cityFiveName);
+        globalStatsHeader = (TextView)findViewById(R.id.globalStatsHeader);
+        globalStatsHeader.setText("loading...");
+        //initialize Cities based on current region
+        if(region == 0) {
+            cityOne = new City(getString(R.string.cityOne));
+            cityTwo = new City(getString(R.string.cityTwo));
+            cityThree = new City(getString(R.string.cityThree));
+            cityFour = new City(getString(R.string.cityFour));
+            cityFive = new City(getString(R.string.cityFive));
+            cityRequest cityOneRequest = new cityRequest(cityOneButton, cityOne);
+            cityRequest cityTwoRequest = new cityRequest(cityTwoButton, cityTwo);
+            cityRequest cityThreeRequest = new cityRequest(cityThreeButton, cityThree);
+            cityRequest cityFourRequest = new cityRequest(cityFourButton, cityFour);
+            cityRequest cityFiveRequest = new cityRequest(cityFiveButton, cityFive);
+        }else if(region == 1){
+            cityOne = new City(getString(R.string.citySix));
+            cityTwo = new City(getString(R.string.citySeven));
+            cityThree = new City(getString(R.string.cityEight));
+            cityFour = new City(getString(R.string.cityNine));
+            cityFive = new City(getString(R.string.cityTen));
+            cityRequest cityOneRequest = new cityRequest(cityOneButton, cityOne);
+            cityRequest cityTwoRequest = new cityRequest(cityTwoButton, cityTwo);
+            cityRequest cityThreeRequest = new cityRequest(cityThreeButton, cityThree);
+            cityRequest cityFourRequest = new cityRequest(cityFourButton, cityFour);
+            cityRequest cityFiveRequest = new cityRequest(cityFiveButton, cityFive);
+
+        }else if(region == 2){
+            cityOne = new City(getString(R.string.cityEleven));
+            cityTwo = new City(getString(R.string.cityTwelve));
+            cityThree = new City(getString(R.string.cityThirteen));
+            cityFour = new City(getString(R.string.cityFourteen));
+            cityFive = new City(getString(R.string.cityFifteen));
+            cityRequest cityOneRequest = new cityRequest(cityOneButton, cityOne);
+            cityRequest cityTwoRequest = new cityRequest(cityTwoButton, cityTwo);
+            cityRequest cityThreeRequest = new cityRequest(cityThreeButton, cityThree);
+            cityRequest cityFourRequest = new cityRequest(cityFourButton, cityFour);
+            cityRequest cityFiveRequest = new cityRequest(cityFiveButton, cityFive);
+        }else if(region == 3){
+            cityOne = new City(getString(R.string.citySixteen));
+            cityTwo = new City(getString(R.string.citySeventeen));
+            cityThree = new City(getString(R.string.cityEighteen));
+            cityFour = new City(getString(R.string.cityNineteen));
+            cityFive = new City(getString(R.string.cityTwenty));
+            cityRequest cityOneRequest = new cityRequest(cityOneButton, cityOne);
+            cityRequest cityTwoRequest = new cityRequest(cityTwoButton, cityTwo);
+            cityRequest cityThreeRequest = new cityRequest(cityThreeButton, cityThree);
+            cityRequest cityFourRequest = new cityRequest(cityFourButton, cityFour);
+            cityRequest cityFiveRequest = new cityRequest(cityFiveButton, cityFive);
+        }else if (region == 4){
+            cityOne = new City(getString(R.string.cityTwentyOne));
+            cityTwo = new City(getString(R.string.cityTwentyTwo));
+            cityThree = new City(getString(R.string.cityTwentyThree));
+            cityFour = new City(getString(R.string.cityTwentyFour));
+            cityFive = new City(getString(R.string.cityTwentyFive));
+            cityRequest cityOneRequest = new cityRequest(cityOneButton, cityOne);
+            cityRequest cityTwoRequest = new cityRequest(cityTwoButton, cityTwo);
+            cityRequest cityThreeRequest = new cityRequest(cityThreeButton, cityThree);
+            cityRequest cityFourRequest = new cityRequest(cityFourButton, cityFour);
+            cityRequest cityFiveRequest = new cityRequest(cityFiveButton, cityFive);
+        }
+
+
 
 
         //back button to return to main activity
@@ -97,6 +162,42 @@ public class GlobalStats extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        Button nextRegion = (Button) findViewById(R.id.nextButton);
+        nextRegion.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                //change the region variable by one, circling back if it reaches 5th region (4)
+                final SharedPreferences sharedPref = getSharedPreferences("region_data", Context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = sharedPref.edit();
+                region = sharedPref.getInt("region_data", 0);
+                if(region <4)
+                {
+                    region++;
+                }
+                else
+                {
+                    region = 0;
+                }
+                editor.putInt("region_data", region);
+                editor.apply();
+                //restart the activity with the new region info
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    //check if a city name is in the expected city array
+    public static boolean useLoop(String[] arr, String targetValue) {
+        for(String s: arr){
+            if(s.equals(targetValue))
+                return true;
+        }
+        return false;
     }
 
 
@@ -337,37 +438,208 @@ public class GlobalStats extends AppCompatActivity {
                 mCity.differenceTemp = mCity.currentTemp - mCity.almanacTemp;
                 String differenceTempString = String.format("%.2f", mCity.differenceTemp);
 
-
+                // african cities
                 if(mCity.getName() == getString(R.string.cityOne)){
                     //set the color of the button based on the difference in temperature
                     cityOneButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
                     cityOneButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityOneName.setText(mCity.getCompleteCityName());
 
                 }
                 if(mCity.getName() == getString(R.string.cityTwo)){
                     //set the color of the button based on the difference in temperature
                     cityTwoButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
                     cityTwoButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
-
+                    cityTwoName.setText(mCity.getCompleteCityName());
                 }
                 if(mCity.getName() == getString(R.string.cityThree)){
                     //set the color of the button based on the difference in temperature
                     cityThreeButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
                     cityThreeButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityThreeName.setText(mCity.getCompleteCityName());
 
                 }
                 if(mCity.getName() == getString(R.string.cityFour)){
                     //set the color of the button based on the difference in temperature
                     cityFourButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
                     cityFourButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFourName.setText(mCity.getCompleteCityName());
 
                 }
                 if(mCity.getName() == getString(R.string.cityFive)){
                     //set the color of the button based on the difference in temperature
                     cityFiveButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
                     cityFiveButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFiveName.setText(mCity.getCompleteCityName());
+                    globalStatsHeader.setText("Today's Stats: Africa");
 
                 }
+
+
+                //next set - usa
+
+                if(mCity.getName() == getString(R.string.citySix)){
+                    //set the color of the button based on the difference in temperature
+                    cityOneButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityOneButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityOneName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.citySeven)){
+                    //set the color of the button based on the difference in temperature
+                    cityTwoButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityTwoButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityTwoName.setText(mCity.getCompleteCityName());
+                }
+                if(mCity.getName() == getString(R.string.cityEight)){
+                    //set the color of the button based on the difference in temperature
+                    cityThreeButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityThreeButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityThreeName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityNine)){
+                    //set the color of the button based on the difference in temperature
+                    cityFourButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFourButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFourName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityTen)){
+                    //set the color of the button based on the difference in temperature
+                    cityFiveButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFiveButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFiveName.setText(mCity.getCompleteCityName());
+                    globalStatsHeader.setText("Today's Stats: USA");
+
+                }
+
+                //next set - asia
+
+                if(mCity.getName() == getString(R.string.cityEleven)){
+                    //set the color of the button based on the difference in temperature
+                    cityOneButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityOneButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityOneName.setText(mCity.getCompleteCityName());
+                    globalStatsHeader.setText("Today's Stats: Asia");
+
+                }
+                if(mCity.getName() == getString(R.string.cityTwelve)){
+                    //set the color of the button based on the difference in temperature
+                    cityTwoButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityTwoButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityTwoName.setText(mCity.getCompleteCityName());
+                }
+                if(mCity.getName() == getString(R.string.cityThirteen)){
+                    //set the color of the button based on the difference in temperature
+                    cityThreeButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityThreeButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityThreeName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityFourteen)){
+                    //set the color of the button based on the difference in temperature
+                    cityFourButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFourButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFourName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityFifteen)){
+                    //set the color of the button based on the difference in temperature
+                    cityFiveButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFiveButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFiveName.setText(mCity.getCompleteCityName());
+
+                }
+
+                //next set - europe
+
+                if(mCity.getName() == getString(R.string.citySixteen)){
+                    //set the color of the button based on the difference in temperature
+                    cityOneButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityOneButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityOneName.setText(mCity.getCompleteCityName());
+                    globalStatsHeader.setText("Today's Stats: Europe");
+
+                }
+                if(mCity.getName() == getString(R.string.citySeventeen)){
+                    //set the color of the button based on the difference in temperature
+                    cityTwoButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityTwoButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityTwoName.setText(mCity.getCompleteCityName());
+                }
+                if(mCity.getName() == getString(R.string.cityEighteen)){
+                    //set the color of the button based on the difference in temperature
+                    cityThreeButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityThreeButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityThreeName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityNineteen)){
+                    //set the color of the button based on the difference in temperature
+                    cityFourButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFourButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFourName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityTwenty)){
+                    //set the color of the button based on the difference in temperature
+                    cityFiveButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFiveButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFiveName.setText(mCity.getCompleteCityName());
+
+                }
+
+                //next set - latin america
+
+                if(mCity.getName() == getString(R.string.cityTwentyOne)){
+                    //set the color of the button based on the difference in temperature
+                    cityOneButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityOneButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityOneName.setText(mCity.getCompleteCityName());
+                    globalStatsHeader.setText("Today's Stats: Latin America");
+
+
+                }
+                if(mCity.getName() == getString(R.string.cityTwentyTwo)){
+                    //set the color of the button based on the difference in temperature
+                    cityTwoButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityTwoButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityTwoName.setText(mCity.getCompleteCityName());
+                }
+                if(mCity.getName() == getString(R.string.cityTwentyThree)){
+                    //set the color of the button based on the difference in temperature
+                    cityThreeButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityThreeButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityThreeName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityTwentyFour)){
+                    //set the color of the button based on the difference in temperature
+                    cityFourButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFourButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFourName.setText(mCity.getCompleteCityName());
+
+                }
+                if(mCity.getName() == getString(R.string.cityTwentyFive)){
+                    //set the color of the button based on the difference in temperature
+                    cityFiveButton.setBackgroundColor(Color.parseColor(MainActivity.getColor(mCity.differenceTemp)));
+                    cityFiveButton.setText(differenceTempString + " degrees " + isWarmer(mCity.differenceTemp) + " today.");
+                    cityFiveName.setText(mCity.getCompleteCityName());
+
+                }
+
+                cityOneName.setVisibility(View.VISIBLE);
+                cityTwoName.setVisibility(View.VISIBLE);
+                cityThreeName.setVisibility(View.VISIBLE);
+                cityFourName.setVisibility(View.VISIBLE);
+                cityFiveName.setVisibility(View.VISIBLE);
+
+                cityOneButton.setVisibility(View.VISIBLE);
+                cityTwoButton.setVisibility(View.VISIBLE);
+                cityThreeButton.setVisibility(View.VISIBLE);
+                cityFourButton.setVisibility(View.VISIBLE);
+                cityFiveButton.setVisibility(View.VISIBLE);
 
 
 

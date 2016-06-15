@@ -28,9 +28,6 @@ public class City {
     double differenceTemp;
     Color tempColor;
     String name;
-
-
-
     String completeCityName;
 
 
