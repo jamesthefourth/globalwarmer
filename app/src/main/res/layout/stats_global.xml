@@ -12,7 +12,7 @@
         android:text="Today's Global Stats"
         android:id="@+id/globalStatsHeader"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="18dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +20,8 @@
         android:text="@string/cityOne"
         android:id="@+id/cityOneName"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="20dp"
+        android:textSize="25dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -98,4 +99,14 @@
         android:id="@+id/cityFiveButton"
         android:layout_gravity="center_horizontal"
         android:paddingBottom="20dp" />
+
+
+    <Button
+        android:id="@+id/backToMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to Search"
+        android:layout_gravity="center"
+        android:paddingTop="15dp"
+        />
 </LinearLayout>

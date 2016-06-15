@@ -1,5 +1,6 @@
 package com.example.james.weatherapitest;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,12 +79,26 @@ public class GlobalStats extends AppCompatActivity {
         cityFour = new City(getString(R.string.cityFour));
         cityFive = new City(getString(R.string.cityFive));
 
-        networkRequest cityOneRequest = new networkRequest(cityOneButton, cityOne);
+        cityRequest cityOneRequest = new cityRequest(cityOneButton, cityOne);
         networkRequest cityTwoRequest = new networkRequest(cityTwoButton, cityTwo);
         networkRequest cityThreeRequest = new networkRequest(cityThreeButton, cityThree);
         networkRequest cityFourRequest = new networkRequest(cityFourButton, cityFour);
         networkRequest cityFiveRequest = new networkRequest(cityFiveButton, cityFive);
+
+
+        //back button to return to main activity
+        Button backToMain = (Button) findViewById(R.id.backToMain);
+
+
+        backToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(GlobalStats.this, MainActivity.class);
+                startActivity(myIntent);
+            }
+        });
     }
+
 
     //method to return warmer/cooler than average string depending on the difference in temp
     private String isWarmer(double d){
@@ -94,6 +110,104 @@ public class GlobalStats extends AppCompatActivity {
             return getString(R.string.cooler);
         }
     }
+
+    /**
+     * Class that processes the input string and used the wunderground API to
+     * return the best match to the search
+     */
+    class cityRequest extends AsyncTask<String,String,String> {
+        String cityCode;
+        String cityName;
+        private Exception exception;
+        Button cityViewRequest;
+        HttpURLConnection urlConnection;
+        City mCity;
+
+        protected cityRequest(Button button,City city){
+
+            cityViewRequest = button;
+            mCity = city;
+            cityName = mCity.getName();
+
+
+
+            super.execute();
+
+        }
+
+
+        protected String doInBackground(String... args) {
+
+
+            StringBuilder result = new StringBuilder();
+            JSONObject resultObject = null;
+            try {
+                String currentCity = cityName;
+
+                //The reason for this is so you can replace all of the spaces
+                // it has to be a new string becuase they are immutable
+                String currentCity2 = currentCity.replaceAll(" ", "%20");
+                mCity.setCompleteCityName(currentCity2);
+                cityName = mCity.getName();
+
+                //THIS IS WHERE WE USE AUTO COMPLETE TO GET THE PROPER CITY NAME
+
+                URL url = new URL("http://autocomplete.wunderground.com/aq?query=" + cityName);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                resultObject = new JSONObject(result.toString());
+
+            }catch( Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                urlConnection.disconnect();
+            }
+
+
+            try {
+                //THIS IS WHERE WE VALIDATE THE USER INPUT OF CITYNAME
+                //build the output string from the JSON data and the user input city name
+
+                //precaution/testing if/else to make sure we get some kind of city name returned
+                if(resultObject != null) {
+
+                    JSONArray values = resultObject.getJSONArray("RESULTS");
+                    StringBuilder output = new StringBuilder();
+
+                    output.append(values.getJSONObject(0).get("name"));
+                    cityCode = values.getJSONObject(0).get("zmw").toString();
+                    mCity.setCityCode(cityCode);
+                    mCity.setCompleteCityName((values.getJSONObject(0).get("name").toString()));
+                    return output.toString();
+                }
+                else
+                    return cityName;
+
+            }catch (JSONException e){
+                return "City name not recognized";
+            }
+        }
+
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+
+            networkRequest one = new networkRequest(cityViewRequest, mCity);
+
+
+        }
+
+    }
+
+
+
     //initiate new thread for network connected api call in order to avoid slowing UI thread.
     //this class handles gathering the current temperature, the next class will handle almanac data
 
@@ -109,7 +223,7 @@ public class GlobalStats extends AppCompatActivity {
         protected networkRequest(Button mButton, City city){
             responseView = mButton;
             mCity = city;
-            cityName = mCity.getName();
+            cityName = mCity.getCityCode();
             super.execute();
 
         }
@@ -119,7 +233,7 @@ public class GlobalStats extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             JSONObject resultObject = null;
             try {
-                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/CA/" + cityName + ".json");
+                URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/conditions/q/zmw:"+ cityName +".json");
                 urlConnectionOne = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnectionOne.getInputStream());
 
@@ -174,7 +288,7 @@ public class GlobalStats extends AppCompatActivity {
 
                 responseView = button;
                 mCity = city;
-                cityName = city.getName();
+                cityName = city.getCityCode();
                 super.execute();
 
             }
@@ -185,7 +299,7 @@ public class GlobalStats extends AppCompatActivity {
                 StringBuilder result = new StringBuilder();
                 JSONObject resultObject = null;
                 try {
-                    URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/CA/"+ cityName +".json");
+                    URL url = new URL("http://api.wunderground.com/api/f1650fb7e0ae610e/almanac/q/zmw:"+ cityName +".json");
                     urlConnection = (HttpURLConnection) url.openConnection();
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
